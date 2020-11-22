@@ -8,11 +8,11 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
 public abstract class Entity {
-    protected int x;
-    protected int y;
+    protected double x;
+    protected double y;
     protected Image img;
 
-    public Entity( int x, int y, Image img) {
+    public Entity(double x, double y, Image img) {
         this.x = x;
         this.y = y;
         this.img = img;
@@ -27,5 +27,10 @@ public abstract class Entity {
 
         gc.drawImage(base, x * Sprite.SCALED_SIZE, y * Sprite.SCALED_SIZE);
     }
+    public void setPosition(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public abstract void update();
 }

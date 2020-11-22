@@ -2,33 +2,39 @@ package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
-import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.Character.Balloon;
+import uet.oop.bomberman.entities.Character.Bomber;
+import uet.oop.bomberman.entities.Character.Oneal;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Grass;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.Tiles.Brick;
+import uet.oop.bomberman.entities.Tiles.Grass;
+import uet.oop.bomberman.entities.Tiles.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BombermanGame extends Application {
-
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+    public int LEVEL;
+    public int ROWS_MAP;
+    public int COLUMNS_MAP;
+    public static int count = 0;
+    public static ArrayList<String> input = new ArrayList<String>();
 
     private GraphicsContext gc;
     private Canvas canvas;
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> stillObjects = new ArrayList<>();
-    private Game game;
 
 
     public static void main(String[] args) {
@@ -37,8 +43,9 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        createMap();
+                // Tao Canvas
+        canvas = new Canvas(Sprite.SCALED_SIZE * COLUMNS_MAP, Sprite.SCALED_SIZE * ROWS_MAP);
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -50,37 +57,89 @@ public class BombermanGame extends Application {
 
         // Them scene vao stage
         stage.setScene(scene);
+        stage.setTitle("Bomberman");
         stage.show();
+
+        scene.setOnKeyPressed(
+                new EventHandler<KeyEvent>()
+                {
+                    public void handle(KeyEvent e)
+                    {
+                        String code = e.getCode().toString();
+
+                        // only add once... prevent duplicates
+                        if ( !input.contains(code) )
+                            input.add( code );
+                    }
+                });
+
+        scene.setOnKeyReleased(
+                new EventHandler<KeyEvent>()
+                {
+                    public void handle(KeyEvent e)
+                    {
+                        String code = e.getCode().toString();
+                        input.remove( code );
+                    }
+                });
+
+        final long startNanoTime = System.nanoTime();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
-            public void handle(long l) {
+            public void handle(long currentNanoTime) {
+                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 render();
-                game = new Game();
-                if (game.traceKey.get(KeyEvent.VK_LEFT)) {
-                    System.out.println("daubuoi");
-                }
                 update();
+                count = count % 3;
+                count++;
             }
         };
         timer.start();
-
-        createMap();
-
-        Entity bomberman = new Bomber(1, 1, Sprite.player_right.getFxImage());
-        entities.add(bomberman);
     }
 
     public void createMap() {
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
+        File text = new File("bomberman\\res\\levels\\Level1.txt");
+
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(text);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert scanner != null;
+        String s = scanner.nextLine();
+        String[] parts = s.split(" ");
+        this.LEVEL = Integer.parseInt(parts[0]);
+        this.ROWS_MAP = Integer.parseInt(parts[1]);
+        this.COLUMNS_MAP = Integer.parseInt(parts[2]);
+        String map;
+        for (int i = 0; i < ROWS_MAP; i++) {
+            map = scanner.nextLine();
+            for (int j = 0; j < COLUMNS_MAP; j++) {
                 Entity object;
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                } else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
+                if (map.charAt(j) == '#') {
+                    object = new Wall(j, i, Sprite.wall.getFxImage());
+                }
+                else if (map.charAt(j) == '*') {
+                    object = new Brick(j, i, Sprite.brick.getFxImage());
+                }
+                else {
+                    object = new Grass(j, i, Sprite.grass.getFxImage());
                 }
                 stillObjects.add(object);
+                if (map.charAt(j) == 'p') {
+                    Entity bomberman = new Bomber(j, i, Sprite.player_right.getFxImage());
+                    entities.add(bomberman);
+                }
+                if (map.charAt(j) == '1') {
+                    Entity balloon = new Balloon(j, i, Sprite.balloom_right2.getFxImage());
+                    entities.add(balloon);
+                }
+                if (map.charAt(j) == '2') {
+                    Entity oneal = new Oneal(j, i, Sprite.oneal_right1.getFxImage());
+                    entities.add(oneal);
+                }
             }
         }
     }
