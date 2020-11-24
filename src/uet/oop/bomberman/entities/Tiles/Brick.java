@@ -5,7 +5,7 @@ import uet.oop.bomberman.entities.Entity;
 
 public class Brick extends Entity {
 
-    public Brick(float x, float y, Image img) {
+    public Brick(double x, double y, Image img) {
         super(x, y, img);
     }
 

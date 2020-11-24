@@ -29,12 +29,13 @@ public class BombermanGame extends Application {
     public int ROWS_MAP;
     public int COLUMNS_MAP;
     public static int count = 0;
-    public static ArrayList<String> input = new ArrayList<String>();
+    public static ArrayList<String> input = new ArrayList<>();
+    public List<Entity> entities = new ArrayList<>();
+    public static List<Entity> stillObjects = new ArrayList<>();
 
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
+
 
 
     public static void main(String[] args) {
@@ -58,11 +59,11 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.setTitle("Bomberman");
-        stage.show();
 
         scene.setOnKeyPressed(
                 new EventHandler<KeyEvent>()
                 {
+                    @Override
                     public void handle(KeyEvent e)
                     {
                         String code = e.getCode().toString();
@@ -72,23 +73,22 @@ public class BombermanGame extends Application {
                             input.add( code );
                     }
                 });
-
         scene.setOnKeyReleased(
-                new EventHandler<KeyEvent>()
+        new EventHandler<KeyEvent>()
                 {
+                    @Override
                     public void handle(KeyEvent e)
                     {
                         String code = e.getCode().toString();
                         input.remove( code );
                     }
                 });
-
+        stage.show();
         final long startNanoTime = System.nanoTime();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
                 render();
                 update();
                 count = count % 3;

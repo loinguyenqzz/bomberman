@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
 
 public class Balloon extends Entity {
-    public Balloon(float x, float y, Image img) {
+    public Balloon(double x, double y, Image img) {
         super(x, y, img);
     }
 

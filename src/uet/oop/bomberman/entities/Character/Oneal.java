@@ -6,7 +6,7 @@ import uet.oop.bomberman.entities.Entity;
 import java.awt.*;
 
 public class Oneal extends Entity {
-    public Oneal(float x, float y, Image img) {
+    public Oneal(double x, double y, Image img) {
         super(x, y, img);
     }
 

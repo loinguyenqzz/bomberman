@@ -7,10 +7,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Tiles.Grass;
+import uet.oop.bomberman.entities.Tiles.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
-    private double step = 0.5;
+    private final double step = 0.5;
 
     public Bomber(double x, double y, Image img) {
         super( x, y, img);
@@ -32,7 +34,9 @@ public class Bomber extends Entity {
             if (BombermanGame.count == 2) {
                 img = Sprite.player_left_2.getFxImage();
             }
-            x -= step;
+            if(canMove(x - step, y)) {
+                x -= step;
+            }
         }
         if (BombermanGame.input.contains("RIGHT")) {
             if (BombermanGame.count == 0) {
@@ -44,7 +48,9 @@ public class Bomber extends Entity {
             if (BombermanGame.count == 2) {
                 img = Sprite.player_right_2.getFxImage();
             }
-            x += step;
+            if (canMove(x + step, y)) {
+                x += step;
+            }
         }
         if (BombermanGame.input.contains("UP")) {
             if (BombermanGame.count == 0) {
@@ -56,7 +62,9 @@ public class Bomber extends Entity {
             if (BombermanGame.count == 2) {
                 img = Sprite.player_up_2.getFxImage();
             }
-            y -= step;
+            if (canMove(x, y - step)) {
+                y -= step;
+            }
         }
         if (BombermanGame.input.contains("DOWN")) {
             if (BombermanGame.count == 0) {
@@ -68,7 +76,18 @@ public class Bomber extends Entity {
             if (BombermanGame.count == 2) {
                 img = Sprite.player_down_2.getFxImage();
             }
-            y += step;
+            if (canMove(x, y + step)) {
+                y += step;
+            }
         }
+    }
+    public boolean canMove(double _x, double _y) {
+        Bomber bomber = new Bomber(_x, _y, Sprite.player_up.getFxImage());
+        for(Entity object : BombermanGame.stillObjects) {
+            if (!(object instanceof Grass)) {
+                if (object.intersects(bomber)) return false;
+            }
+        }
+        return true;
     }
 }

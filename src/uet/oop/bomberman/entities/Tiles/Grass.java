@@ -5,7 +5,7 @@ import uet.oop.bomberman.entities.Entity;
 
 public class Grass extends Entity {
 
-    public Grass(float x, float y, Image img) {
+    public Grass(double x, double y, Image img) {
         super(x, y, img);
     }
 
