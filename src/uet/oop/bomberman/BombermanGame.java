@@ -30,8 +30,9 @@ public class BombermanGame extends Application {
     public int COLUMNS_MAP;
     public static int count = 0;
     public static ArrayList<String> input = new ArrayList<>();
-    public List<Entity> entities = new ArrayList<>();
+    public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
+    public static List<Entity> item = new ArrayList<>();
 
     private GraphicsContext gc;
     private Canvas canvas;
@@ -145,6 +146,7 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
+        item.forEach(Entity::update);
         entities.forEach(Entity::update);
     }
 
@@ -152,5 +154,6 @@ public class BombermanGame extends Application {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
+        item.forEach(g -> g.render(gc));
     }
 }

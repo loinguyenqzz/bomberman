@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.Items.Bomb;
 import uet.oop.bomberman.entities.Tiles.Grass;
 import uet.oop.bomberman.entities.Tiles.Wall;
 import uet.oop.bomberman.graphics.Sprite;
@@ -21,6 +22,7 @@ public class Bomber extends Entity {
     @Override
     public void update() {
         move();
+        putBomb();
     }
 
     public void move() {
@@ -82,12 +84,19 @@ public class Bomber extends Entity {
         }
     }
     public boolean canMove(double _x, double _y) {
-        Bomber bomber = new Bomber(_x, _y, Sprite.player_up.getFxImage());
+        Bomber bomber = new Bomber(_x, _y, img);
         for(Entity object : BombermanGame.stillObjects) {
             if (!(object instanceof Grass)) {
                 if (object.intersects(bomber)) return false;
             }
         }
         return true;
+    }
+
+    public void putBomb() {
+        if (BombermanGame.input.contains("SPACE")) {
+            Bomb bomb = new Bomb(this.x, this.y, Sprite.bomb_1.getFxImage());
+            BombermanGame.item.add(bomb);
+        }
     }
 }
