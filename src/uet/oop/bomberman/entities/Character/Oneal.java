@@ -5,8 +5,6 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Tiles.Grass;
 
-import java.awt.*;
-
 public class Oneal extends Entity {
 
     public Oneal(double x, double y, Image img) {

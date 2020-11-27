@@ -35,7 +35,7 @@ public class Balloon extends Entity {
                 img = Sprite.balloom_left3.getFxImage();
             }
         }
-        double speed = 0.2;
+        double speed = 0.1;
         x += speed * Math.pow(-1, i);
         for(Entity object : BombermanGame.stillObjects) {
             if (!(object instanceof Grass)) {

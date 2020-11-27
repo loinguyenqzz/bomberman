@@ -1,15 +1,10 @@
 package uet.oop.bomberman.entities.Character;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Items.Bomb;
+import uet.oop.bomberman.entities.Bomb.Bomb;
 import uet.oop.bomberman.entities.Tiles.Grass;
-import uet.oop.bomberman.entities.Tiles.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
@@ -96,7 +91,8 @@ public class Bomber extends Entity {
     public void putBomb() {
         if (BombermanGame.input.contains("SPACE")) {
             Bomb bomb = new Bomb(this.x, this.y, Sprite.bomb_1.getFxImage());
-            BombermanGame.item.add(bomb);
+            BombermanGame.bomb.add(bomb);
         }
     }
+
 }

@@ -1,6 +1,8 @@
 package uet.oop.bomberman;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -32,14 +34,20 @@ public class BombermanGame extends Application {
     public static ArrayList<String> input = new ArrayList<>();
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
-    public static List<Entity> item = new ArrayList<>();
+    public static List<Entity> bomb = new ArrayList<>();
+    public static List<Entity> flame = new ArrayList<>();
 
     private GraphicsContext gc;
     private Canvas canvas;
-
+    static double currentGameTime;
+    static double oldGameTime;
+    static double deltaTime;
+    final static long startNanoTime = System.nanoTime();
 
 
     public static void main(String[] args) {
+        System.setProperty("quantum.multithreaded", "true");
+
         Application.launch(BombermanGame.class);
     }
 
@@ -85,11 +93,16 @@ public class BombermanGame extends Application {
                     }
                 });
         stage.show();
-        final long startNanoTime = System.nanoTime();
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
+                oldGameTime = currentGameTime;
+                currentGameTime = (currentNanoTime - startNanoTime) / 1000000000.0;
+                deltaTime = currentGameTime - oldGameTime;
+                System.out.println(deltaTime * 100);
+
                 render();
                 update();
                 count = count % 3;
@@ -146,14 +159,16 @@ public class BombermanGame extends Application {
     }
 
     public void update() {
-        item.forEach(Entity::update);
+        bomb.forEach(Entity::update);
         entities.forEach(Entity::update);
+        flame.forEach(Entity::update);
     }
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> g.render(gc));
-        item.forEach(g -> g.render(gc));
+        bomb.forEach(g -> g.render(gc));
+        flame.forEach(g -> g.render(gc));
     }
 }

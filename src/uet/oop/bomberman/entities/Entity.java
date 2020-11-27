@@ -19,6 +19,9 @@ public abstract class Entity {
         this.img = img;
     }
 
+    protected Entity() {
+    }
+
     public void render(GraphicsContext gc) {
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
@@ -31,6 +34,14 @@ public abstract class Entity {
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public abstract void update();
