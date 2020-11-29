@@ -31,10 +31,6 @@ public abstract class Entity {
 
         gc.drawImage(base, x * Sprite.SCALED_SIZE, y * Sprite.SCALED_SIZE);
     }
-    public void setPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
 
     public double getX() {
         return x;

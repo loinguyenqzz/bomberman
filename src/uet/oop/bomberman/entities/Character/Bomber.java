@@ -9,6 +9,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
     private final double step = 0.5;
+    private int index = 0;
 
     public Bomber(double x, double y, Image img) {
         super( x, y, img);
@@ -78,6 +79,7 @@ public class Bomber extends Entity {
             }
         }
     }
+
     public boolean canMove(double _x, double _y) {
         Bomber bomber = new Bomber(_x, _y, img);
         for(Entity object : BombermanGame.stillObjects) {
@@ -86,6 +88,10 @@ public class Bomber extends Entity {
             }
         }
         return true;
+    }
+
+    public void kill() {
+        BombermanGame.entities.remove(this);
     }
 
     public void putBomb() {

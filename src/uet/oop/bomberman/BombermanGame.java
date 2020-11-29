@@ -101,10 +101,9 @@ public class BombermanGame extends Application {
                 oldGameTime = currentGameTime;
                 currentGameTime = (currentNanoTime - startNanoTime) / 1000000000.0;
                 deltaTime = currentGameTime - oldGameTime;
-                System.out.println(deltaTime * 100);
-
-                render();
+               // System.out.println(deltaTime * 100);
                 update();
+                render();
                 count = count % 3;
                 count++;
             }
