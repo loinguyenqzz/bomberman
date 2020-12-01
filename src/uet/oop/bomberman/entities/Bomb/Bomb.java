@@ -11,7 +11,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.Iterator;
 
 public class Bomb extends Entity {
-    private static double timeToExplode = 3;
+    private double timeToExplode = 10;
     private double timeAfter = 2;
     private boolean _exploded = false; // đã nổ ?
     private boolean _canMove = true; // có thể đi qua
@@ -54,6 +54,7 @@ public class Bomb extends Entity {
                     }
                 }
                 BombermanGame.flame.clear();
+                BombermanGame.bomb.remove(this);
             }
         }
     }

@@ -104,8 +104,8 @@ public class BombermanGame extends Application {
                // System.out.println(deltaTime * 100);
                 update();
                 render();
-                count = count % 3;
-                count++;
+                count = (++count) % 3;
+                if (count == 0) count = 1;
             }
         };
         timer.start();

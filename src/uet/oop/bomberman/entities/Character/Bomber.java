@@ -19,6 +19,7 @@ public class Bomber extends Entity {
     public void update() {
         move();
         putBomb();
+        collide();
     }
 
     public void move() {
@@ -80,6 +81,16 @@ public class Bomber extends Entity {
         }
     }
 
+    public void collide(){
+        for(Entity object : BombermanGame.entities) {
+            if (!(object instanceof Bomber)) {
+                if (object.intersects(this))
+                BombermanGame.entities.remove(this);
+            }
+        }
+    }
+
+
     public boolean canMove(double _x, double _y) {
         Bomber bomber = new Bomber(_x, _y, img);
         for(Entity object : BombermanGame.stillObjects) {
@@ -90,9 +101,7 @@ public class Bomber extends Entity {
         return true;
     }
 
-    public void kill() {
-        BombermanGame.entities.remove(this);
-    }
+
 
     public void putBomb() {
         if (BombermanGame.input.contains("SPACE")) {

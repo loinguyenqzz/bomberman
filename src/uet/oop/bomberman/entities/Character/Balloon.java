@@ -21,7 +21,7 @@ public class Balloon extends Entity {
             if (BombermanGame.count == 1) {
                 img = Sprite.balloom_right2.getFxImage();
             }
-            if (BombermanGame.count == 2) {
+            else {
                 img = Sprite.balloom_right3.getFxImage();
             }
         } else {
